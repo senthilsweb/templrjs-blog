@@ -1,0 +1,168 @@
+openapi: 3.0.0
+info:
+  title: Performance Metrics API
+  version: 1.0.0
+  description: API for managing performance test metrics
+paths:
+  /api/metrics:
+    get:
+      summary: Get metrics
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            default: 5
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: order
+          in: query
+          schema:
+            type: string
+            enum: [asc, desc]
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricsResponse'
+    
+  /api/metrics/add:
+    post:
+      summary: Add new metric
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewMetric'
+      responses:
+        '201':
+          description: Metric created successfully
+          
+  /api/metrics/{id}:
+    put:
+      summary: Update metric
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMetric'
+      responses:
+        '200':
+          description: Metric updated successfully
+          
+    delete:
+      summary: Delete metric
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Metric deleted successfully
+
+components:
+  schemas:
+    MetricsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Metric'
+        pagination:
+          type: object
+          properties:
+            total:
+              type: integer
+            pageCount:
+              type: integer
+            currentPage:
+              type: integer
+            pageSize:
+              type: integer
+    
+    Metric:
+      type: object
+      properties:
+        id:
+          type: integer
+        datasourceDescription:
+          type: string
+        noOfFilesOrTables:
+          type: integer
+        fileType:
+          type: string
+        dataSourceType:
+          type: string
+        totalSourceDataSizeInKb:
+          type: number
+        noOfColumnsInFileOrTable:
+          type: integer
+        rowCountPerResource:
+          type: integer
+        totalRowCountOfAllResources:
+          type: integer
+    
+    NewMetric:
+      type: object
+      properties:
+        datasourceDescription:
+          type: string
+        noOfFilesOrTables:
+          type: integer
+        fileType:
+          type: string
+        dataSourceType:
+          type: string
+        totalSourceDataSizeInKb:
+          type: number
+        noOfColumnsInFileOrTable:
+          type: integer
+        rowCountPerResource:
+          type: integer
+        totalRowCountOfAllResources:
+          type: integer
+    
+    UpdateMetric:
+      type: object
+      properties:
+        datasourceDescription:
+          type: string
+        noOfFilesOrTables:
+          type: integer
+        fileType:
+          type: string
+        dataSourceType:
+          type: string
+        totalSourceDataSizeInKb:
+          type: number
+        noOfColumnsInFileOrTable:
+          type: integer
+        rowCountPerResource:
+          type: integer
+        totalRowCountOfAllResources:
+          type: integer
+

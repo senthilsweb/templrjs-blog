@@ -1,0 +1,8 @@
+console.log("1. First, install Bun if you haven't already:")
+console.log("curl -fsSL https://bun.sh/install | bash")
+console.log("\n2. Install all required dependencies with Bun:")
+console.log(`bun add @radix-ui/react-checkbox @radix-ui/react-dialog @radix-ui/react-dropdown-menu @radix-ui/react-label @radix-ui/react-slot class-variance-authority clsx date-fns drizzle-orm lucide-react next next-themes pg react react-day-picker react-dom sonner tailwind-merge tailwindcss-animate @tanstack/react-table`)
+console.log("\n3. Install dev dependencies:")
+console.log(`bun add -d @types/node @types/pg @types/react @types/react-dom autoprefixer dotenv drizzle-kit postcss tailwindcss typescript`)
+console.log("\n4. After installation, run the development server with:")
+console.log("bun dev")
