@@ -1,32 +1,37 @@
-import { drizzle } from 'drizzle-orm/node-postgres';
-import { migrate } from 'drizzle-orm/node-postgres/migrator';
-import { Pool } from 'pg';
+import { drizzle } from 'drizzle-orm/better-sqlite3';
+import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
+import Database from 'better-sqlite3';
+import * as schema from './schema';
+import * as path from 'path';
 
-async function runMigrations() {
+export async function runSqliteMigrations() {
   if (!process.env.DATABASE_URL) {
     throw new Error('DATABASE_URL environment variable is required');
   }
 
-  const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.NODE_ENV === 'production'
-      ? { rejectUnauthorized: false }
-      : undefined,
-  });
+  const dbPath = process.env.DATABASE_URL.replace('sqlite://', '');
+  
+  // Ensure we're using an absolute path for the database
+  const absoluteDbPath = path.isAbsolute(dbPath) 
+    ? dbPath 
+    : path.join(process.cwd(), dbPath);
 
-  const db = drizzle(pool);
+  console.log(`Using database at: ${absoluteDbPath}`);
+  
+  const sqlite = new Database(absoluteDbPath);
+  const db = drizzle(sqlite, { schema });
 
-  console.log('Running migrations...');
-  
-  await migrate(db, { migrationsFolder: 'drizzle' });
-  
-  console.log('Migrations completed!');
-  
-  await pool.end();
+  try {
+    console.log('Running SQLite migrations...');
+    await migrate(db, { 
+      migrationsFolder: path.join(process.cwd(), 'drizzle'),
+    });
+    console.log('Migrations completed successfully');
+  } catch (error) {
+    console.error('Migration failed:', error);
+    throw error;
+  } finally {
+    sqlite.close();
+  }
 }
-
-runMigrations().catch((err) => {
-  console.error('Migration failed!', err);
-  process.exit(1);
-});
 

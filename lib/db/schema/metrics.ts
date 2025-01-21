@@ -57,8 +57,8 @@ const createSqliteMetricsTable = () =>
     testExecutionTimestamp: sqliteText("test_execution_timestamp"),
     iterationNumber: sqliteInteger("iteration_number"),
     applicationVersion: sqliteText("application_version"),
-    createdAt: sqliteText("created_at").default(sql`CURRENT_TIMESTAMP`),
-    updatedAt: sqliteText("updated_at").default(sql`CURRENT_TIMESTAMP`),
+    createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
   })
 
 // Export the appropriate tables based on the database type

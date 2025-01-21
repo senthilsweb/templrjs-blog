@@ -1,6 +1,6 @@
 import { pgTable, text, integer, real, boolean, timestamp, date, serial } from "drizzle-orm/pg-core"
 import { sqliteTable, text as sqliteText, integer as sqliteInteger, real as sqliteReal } from "drizzle-orm/sqlite-core"
-
+import { sql } from "drizzle-orm"
 // Create separate table definitions for PostgreSQL and SQLite
 const createPgMetricsTable = () =>
   pgTable("perf_test_metrics", {
