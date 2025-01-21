@@ -1,12 +1,12 @@
-'use client'
+"use client"
 
-import { Loader, Trash2, MoreHorizontal } from 'lucide-react'
+import { Loader, Trash2, MoreHorizontal } from "lucide-react"
 import * as React from "react"
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
+  type ColumnDef,
+  type ColumnFiltersState,
+  type SortingState,
+  type VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -14,7 +14,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ChevronDown, ChevronUp, ChevronsUpDown, Settings2 } from 'lucide-react'
+import { ChevronDown, ChevronUp, ChevronsUpDown, Settings2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -26,23 +26,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
 import type { Metric } from "@/lib/db/schema"
 import { MetricForm } from "./metric-form"
 import { toast } from "sonner"
-import { addMetric, updateMetric } from "@/app/actions"
-import { useState } from 'react';
+import { addMetric, updateMetric } from "@/app/actions/metrics"
+import { useState } from "react"
 
-const SortButton = ({ column, children }: { column: any, children: React.ReactNode }) => {
+const SortButton = ({ column, children }: { column: any; children: React.ReactNode }) => {
   return (
     <Button
       variant="ghost"
@@ -149,27 +142,25 @@ const columns: ColumnDef<Metric>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(metric.id.toString())}
-            >
+            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(metric.id.toString())}>
               Copy ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <Sheet open={editSheetOpen} onOpenChange={setEditSheetOpen}>
               <SheetTrigger asChild>
-                <DropdownMenuItem onSelect={(e) => {
-                  e.preventDefault()
-                  setEditSheetOpen(true)
-                }}>
+                <DropdownMenuItem
+                  onSelect={(e) => {
+                    e.preventDefault()
+                    setEditSheetOpen(true)
+                  }}
+                >
                   Edit
                 </DropdownMenuItem>
               </SheetTrigger>
               <SheetContent>
                 <SheetHeader>
                   <SheetTitle>Edit Metric</SheetTitle>
-                  <SheetDescription>
-                    Make changes to the metric here. Click save when you're done.
-                  </SheetDescription>
+                  <SheetDescription>Make changes to the metric here. Click save when you're done.</SheetDescription>
                 </SheetHeader>
                 <div className="mt-4">
                   <MetricForm
@@ -220,9 +211,7 @@ export function MetricsTable({
   onFiltersChange,
   onDeleteSelected,
 }: MetricsTableProps) {
-  const [sorting, setSorting] = React.useState<SortingState>(
-    initialSort ? [initialSort] : []
-  )
+  const [sorting, setSorting] = React.useState<SortingState>(initialSort ? [initialSort] : [])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [globalFilter, setGlobalFilter] = React.useState("")
@@ -235,9 +224,7 @@ export function MetricsTable({
     columns,
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: (newSorting) => {
-      const sortingState = typeof newSorting === 'function' 
-        ? newSorting(sorting)
-        : newSorting
+      const sortingState = typeof newSorting === "function" ? newSorting(sorting) : newSorting
       setSorting(sortingState)
       onSortingChange?.(sortingState)
     },
@@ -274,7 +261,7 @@ export function MetricsTable({
   }
 
   const handleDeleteSelected = () => {
-    const selectedIds = table.getSelectedRowModel().rows.map(row => row.original.id)
+    const selectedIds = table.getSelectedRowModel().rows.map((row) => row.original.id)
     onDeleteSelected?.(selectedIds)
   }
 
@@ -313,9 +300,7 @@ export function MetricsTable({
                       key={column.id}
                       className="capitalize"
                       checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
+                      onCheckedChange={(value) => column.toggleVisibility(!!value)}
                     >
                       {column.id}
                     </DropdownMenuCheckboxItem>
@@ -330,14 +315,12 @@ export function MetricsTable({
             <SheetContent>
               <SheetHeader>
                 <SheetTitle>Add New Metric</SheetTitle>
-                <SheetDescription>
-                  Add a new metric here. Click save when you're done.
-                </SheetDescription>
+                <SheetDescription>Add a new metric here. Click save when you're done.</SheetDescription>
               </SheetHeader>
               <div className="mt-4">
                 <MetricForm
                   onSubmit={async (data) => {
-                    await addMetric(data as Omit<Metric, 'id'>)
+                    await addMetric(data as Omit<Metric, "id">)
                     setSheetOpen(false) // Explicitly close the sheet after successful submission
                   }}
                   onCancel={() => setSheetOpen(false)}
@@ -353,17 +336,12 @@ export function MetricsTable({
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className="border-b bg-muted/50">
                 {headerGroup.headers.map((header) => (
-                  <th 
+                  <th
                     key={header.id}
                     style={{ width: header.getSize() }}
                     className="px-4 py-2 text-left text-sm font-medium text-muted-foreground"
                   >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </th>
                 ))}
               </tr>
@@ -372,10 +350,7 @@ export function MetricsTable({
           <tbody>
             {isLoading ? (
               <tr>
-                <td 
-                  colSpan={table.getAllColumns().length}
-                  className="h-24 text-center"
-                >
+                <td colSpan={table.getAllColumns().length} className="h-24 text-center">
                   <div className="flex items-center justify-center gap-2">
                     <Loader className="h-6 w-6 animate-spin text-primary" />
                     <span className="text-muted-foreground">Loading...</span>
@@ -384,10 +359,7 @@ export function MetricsTable({
               </tr>
             ) : table.getRowModel().rows.length === 0 ? (
               <tr>
-                <td 
-                  colSpan={table.getAllColumns().length}
-                  className="h-24 text-center text-muted-foreground"
-                >
+                <td colSpan={table.getAllColumns().length} className="h-24 text-center text-muted-foreground">
                   No results found
                 </td>
               </tr>
@@ -395,11 +367,7 @@ export function MetricsTable({
               table.getRowModel().rows.map((row) => (
                 <tr key={row.id} className="border-b hover:bg-muted/50">
                   {row.getVisibleCells().map((cell) => (
-                    <td 
-                      key={cell.id} 
-                      style={{ width: cell.column.getSize() }}
-                      className="px-4 py-2 text-sm"
-                    >
+                    <td key={cell.id} style={{ width: cell.column.getSize() }} className="px-4 py-2 text-sm">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}

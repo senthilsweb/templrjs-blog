@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import type { Metric } from "@/lib/db/schema"
-import { Loader2, X } from 'lucide-react'
+import { Loader2, X } from "lucide-react"
 
 interface MetricFormProps {
   initialData?: Partial<Metric>
@@ -22,25 +22,25 @@ export function MetricForm({ initialData, onSubmit, onCancel }: MetricFormProps)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
+
     try {
       await onSubmit(formData)
-      toast.success('Metric saved successfully', {
-        className: 'bg-green-500 text-white',
+      toast.success("Metric saved successfully", {
+        className: "bg-green-500 text-white",
       })
       setFormData({}) // Reset form
       setIsSubmitting(false) // Reset loading state before closing
       onCancel() // Close form
     } catch (error) {
-      toast.error('Failed to save metric', {
-        className: 'bg-destructive text-destructive-foreground',
+      toast.error("Failed to save metric", {
+        className: "bg-destructive text-destructive-foreground",
       })
       setIsSubmitting(false)
     }
   }
 
   const handleChange = (field: keyof Metric, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
+    setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
   const handleReset = () => {
@@ -98,14 +98,14 @@ export function MetricForm({ initialData, onSubmit, onCancel }: MetricFormProps)
                           </Label>
                           <Textarea
                             id="datasourceDescription"
-                            value={formData.datasourceDescription || ''}
-                            onChange={(e) => handleChange('datasourceDescription', e.target.value)}
+                            value={formData.datasourceDescription || ""}
+                            onChange={(e) => handleChange("datasourceDescription", e.target.value)}
                             placeholder="Enter metric description..."
                             className="min-h-[100px] resize-none"
                             disabled={isSubmitting}
                           />
                         </div>
-                        
+
                         <div className="space-y-2">
                           <Label htmlFor="noOfFilesOrTables" className="text-sm font-medium">
                             Number of Files/Tables
@@ -113,8 +113,8 @@ export function MetricForm({ initialData, onSubmit, onCancel }: MetricFormProps)
                           <Input
                             id="noOfFilesOrTables"
                             type="number"
-                            value={formData.noOfFilesOrTables || ''}
-                            onChange={(e) => handleChange('noOfFilesOrTables', parseInt(e.target.value))}
+                            value={formData.noOfFilesOrTables || ""}
+                            onChange={(e) => handleChange("noOfFilesOrTables", Number.parseInt(e.target.value))}
                             placeholder="Enter number of files or tables"
                             disabled={isSubmitting}
                           />
@@ -126,8 +126,8 @@ export function MetricForm({ initialData, onSubmit, onCancel }: MetricFormProps)
                           </Label>
                           <Input
                             id="fileType"
-                            value={formData.fileType || ''}
-                            onChange={(e) => handleChange('fileType', e.target.value)}
+                            value={formData.fileType || ""}
+                            onChange={(e) => handleChange("fileType", e.target.value)}
                             placeholder="Enter file type"
                             disabled={isSubmitting}
                           />
@@ -139,8 +139,8 @@ export function MetricForm({ initialData, onSubmit, onCancel }: MetricFormProps)
                           </Label>
                           <Input
                             id="dataSourceType"
-                            value={formData.dataSourceType || ''}
-                            onChange={(e) => handleChange('dataSourceType', e.target.value)}
+                            value={formData.dataSourceType || ""}
+                            onChange={(e) => handleChange("dataSourceType", e.target.value)}
                             placeholder="Enter data source type"
                             disabled={isSubmitting}
                           />
@@ -153,8 +153,8 @@ export function MetricForm({ initialData, onSubmit, onCancel }: MetricFormProps)
                           <Input
                             id="totalSourceDataSizeInKb"
                             type="number"
-                            value={formData.totalSourceDataSizeInKb || ''}
-                            onChange={(e) => handleChange('totalSourceDataSizeInKb', parseFloat(e.target.value))}
+                            value={formData.totalSourceDataSizeInKb || ""}
+                            onChange={(e) => handleChange("totalSourceDataSizeInKb", Number.parseFloat(e.target.value))}
                             placeholder="Enter total size in KB"
                             disabled={isSubmitting}
                           />
@@ -170,6 +170,7 @@ export function MetricForm({ initialData, onSubmit, onCancel }: MetricFormProps)
                     variant="outline"
                     onClick={onCancel}
                     disabled={isSubmitting}
+                    className="text-muted-foreground hover:text-foreground"
                   >
                     Cancel
                   </Button>
@@ -178,6 +179,7 @@ export function MetricForm({ initialData, onSubmit, onCancel }: MetricFormProps)
                     variant="outline"
                     onClick={handleReset}
                     disabled={isSubmitting}
+                    className="text-yellow-600 hover:text-yellow-700 dark:text-yellow-500"
                   >
                     Reset
                   </Button>
@@ -185,6 +187,7 @@ export function MetricForm({ initialData, onSubmit, onCancel }: MetricFormProps)
                     type="submit"
                     onClick={handleSubmit}
                     disabled={isSubmitting}
+                    className="bg-primary text-primary-foreground hover:bg-primary/90"
                   >
                     Save
                   </Button>

@@ -1,6 +1,5 @@
 import { db } from "./index"
 import { perf_test_metrics } from "./schema"
-import { runSqliteMigrations } from "./migrate"
 
 const seedData = [
   {
@@ -12,9 +11,6 @@ const seedData = [
     noOfColumnsInFileOrTable: 15,
     rowCountPerResource: 10000,
     totalRowCountOfAllResources: 50000,
-    testExecutionTimestamp: new Date().toISOString(), // Store as ISO string for SQLite
-    iterationNumber: 1,
-    applicationVersion: "1.0.0"
   },
   {
     datasourceDescription: "PostgreSQL Database Export",
@@ -25,9 +21,6 @@ const seedData = [
     noOfColumnsInFileOrTable: 20,
     rowCountPerResource: 15000,
     totalRowCountOfAllResources: 45000,
-    testExecutionTimestamp: new Date().toISOString(), // Store as ISO string for SQLite
-    iterationNumber: 1,
-    applicationVersion: "1.0.0"
   },
   {
     datasourceDescription: "Customer Analytics Data",
@@ -38,9 +31,6 @@ const seedData = [
     noOfColumnsInFileOrTable: 10,
     rowCountPerResource: 5000,
     totalRowCountOfAllResources: 40000,
-    testExecutionTimestamp: new Date().toISOString(), // Store as ISO string for SQLite
-    iterationNumber: 1,
-    applicationVersion: "1.0.0"
   },
   {
     datasourceDescription: "Product Inventory Logs",
@@ -51,9 +41,6 @@ const seedData = [
     noOfColumnsInFileOrTable: 12,
     rowCountPerResource: 8000,
     totalRowCountOfAllResources: 32000,
-    testExecutionTimestamp: new Date().toISOString(), // Store as ISO string for SQLite
-    iterationNumber: 1,
-    applicationVersion: "1.0.0"
   },
   {
     datasourceDescription: "User Activity Metrics",
@@ -64,9 +51,6 @@ const seedData = [
     noOfColumnsInFileOrTable: 25,
     rowCountPerResource: 20000,
     totalRowCountOfAllResources: 120000,
-    testExecutionTimestamp: new Date().toISOString(), // Store as ISO string for SQLite
-    iterationNumber: 1,
-    applicationVersion: "1.0.0"
   },
   {
     datasourceDescription: "Financial Transactions",
@@ -77,9 +61,6 @@ const seedData = [
     noOfColumnsInFileOrTable: 18,
     rowCountPerResource: 25000,
     totalRowCountOfAllResources: 250000,
-    testExecutionTimestamp: new Date().toISOString(), // Store as ISO string for SQLite
-    iterationNumber: 1,
-    applicationVersion: "1.0.0"
   },
   {
     datasourceDescription: "IoT Sensor Readings",
@@ -90,9 +71,6 @@ const seedData = [
     noOfColumnsInFileOrTable: 8,
     rowCountPerResource: 30000,
     totalRowCountOfAllResources: 360000,
-    testExecutionTimestamp: new Date().toISOString(), // Store as ISO string for SQLite
-    iterationNumber: 1,
-    applicationVersion: "1.0.0"
   },
   {
     datasourceDescription: "Marketing Campaign Data",
@@ -103,9 +81,6 @@ const seedData = [
     noOfColumnsInFileOrTable: 15,
     rowCountPerResource: 12000,
     totalRowCountOfAllResources: 84000,
-    testExecutionTimestamp: new Date().toISOString(), // Store as ISO string for SQLite
-    iterationNumber: 1,
-    applicationVersion: "1.0.0"
   },
   {
     datasourceDescription: "System Logs Analysis",
@@ -116,9 +91,6 @@ const seedData = [
     noOfColumnsInFileOrTable: 10,
     rowCountPerResource: 40000,
     totalRowCountOfAllResources: 600000,
-    testExecutionTimestamp: new Date().toISOString(), // Store as ISO string for SQLite
-    iterationNumber: 1,
-    applicationVersion: "1.0.0"
   },
   {
     datasourceDescription: "Employee Records",
@@ -129,9 +101,6 @@ const seedData = [
     noOfColumnsInFileOrTable: 22,
     rowCountPerResource: 5000,
     totalRowCountOfAllResources: 10000,
-    testExecutionTimestamp: new Date().toISOString(), // Store as ISO string for SQLite
-    iterationNumber: 1,
-    applicationVersion: "1.0.0"
   },
   {
     datasourceDescription: "Weather Station Data",
@@ -142,9 +111,6 @@ const seedData = [
     noOfColumnsInFileOrTable: 12,
     rowCountPerResource: 18000,
     totalRowCountOfAllResources: 162000,
-    testExecutionTimestamp: new Date().toISOString(), // Store as ISO string for SQLite
-    iterationNumber: 1,
-    applicationVersion: "1.0.0"
   },
   {
     datasourceDescription: "Social Media Analytics",
@@ -155,9 +121,6 @@ const seedData = [
     noOfColumnsInFileOrTable: 20,
     rowCountPerResource: 15000,
     totalRowCountOfAllResources: 75000,
-    testExecutionTimestamp: new Date().toISOString(), // Store as ISO string for SQLite
-    iterationNumber: 1,
-    applicationVersion: "1.0.0"
   },
   {
     datasourceDescription: "E-commerce Orders",
@@ -168,9 +131,6 @@ const seedData = [
     noOfColumnsInFileOrTable: 25,
     rowCountPerResource: 22000,
     totalRowCountOfAllResources: 176000,
-    testExecutionTimestamp: new Date().toISOString(), // Store as ISO string for SQLite
-    iterationNumber: 1,
-    applicationVersion: "1.0.0"
   },
   {
     datasourceDescription: "Healthcare Records",
@@ -181,9 +141,6 @@ const seedData = [
     noOfColumnsInFileOrTable: 30,
     rowCountPerResource: 8000,
     totalRowCountOfAllResources: 48000,
-    testExecutionTimestamp: new Date().toISOString(), // Store as ISO string for SQLite
-    iterationNumber: 1,
-    applicationVersion: "1.0.0"
   },
   {
     datasourceDescription: "Supply Chain Metrics",
@@ -194,25 +151,16 @@ const seedData = [
     noOfColumnsInFileOrTable: 16,
     rowCountPerResource: 10000,
     totalRowCountOfAllResources: 110000,
-    testExecutionTimestamp: new Date().toISOString(), // Store as ISO string for SQLite
-    iterationNumber: 1,
-    applicationVersion: "1.0.0"
   },
 ]
 
 export async function seed() {
   try {
-    if (process.env.DATABASE_URL?.startsWith('sqlite:')) {
-      // Run migrations first for SQLite
-      await runSqliteMigrations();
-    }
-
-    // Insert seed data
-    await db.insert(perf_test_metrics).values(seedData);
-    console.log('Seed data inserted successfully');
+    await db.insert(perf_test_metrics).values(seedData)
+    console.log('Seed data inserted successfully')
   } catch (error) {
-    console.error('Error seeding database:', error);
-    throw error;
+    console.error('Error seeding database:', error)
+    throw error
   }
 }
 

@@ -6,63 +6,140 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
-
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
-
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
-
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
-
     --radius: 0.5rem;
+    /* Add new variables for grid animation */
+    --cell: 40px;
+    --rows: 10;
   }
 
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
-
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-
     --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 11.2%;
-
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
-
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
-
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+  }
+
+  /* Theme variations */
+  :root[class*="slate"] {
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+  }
+
+  :root[class*="red"] {
+    --primary: 0 72.2% 50.6%;
+    --primary-foreground: 0 85.7% 97.3%;
+  }
+
+  :root[class*="orange"] {
+    --primary: 24.6 95% 53.1%;
+    --primary-foreground: 60 9.1% 97.8%;
+  }
+
+  :root[class*="amber"] {
+    --primary: 38 92% 50%;
+    --primary-foreground: 38 92% 97.8%;
+  }
+
+  :root[class*="yellow"] {
+    --primary: 47.9 95.8% 53.1%;
+    --primary-foreground: 26 83.3% 14.1%;
+  }
+
+  :root[class*="lime"] {
+    --primary: 85.5 93% 44.7%;
+    --primary-foreground: 0 0% 100%;
+  }
+
+  :root[class*="green"] {
+    --primary: 142.1 76.2% 36.3%;
+    --primary-foreground: 355.7 100% 97.3%;
+  }
+
+  :root[class*="emerald"] {
+    --primary: 160 84% 39%;
+    --primary-foreground: 0 0% 100%;
+  }
+
+  :root[class*="teal"] {
+    --primary: 173.4 80.4% 40%;
+    --primary-foreground: 0 0% 100%;
+  }
+
+  :root[class*="cyan"] {
+    --primary: 189.5 94.5% 43.1%;
+    --primary-foreground: 0 0% 100%;
+  }
+
+  :root[class*="sky"] {
+    --primary: 198.6 88.7% 48.4%;
+    --primary-foreground: 0 0% 100%;
+  }
+
+  :root[class*="blue"] {
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 0 0% 100%;
+  }
+
+  :root[class*="indigo"] {
+    --primary: 225.9 70.7% 40.2%;
+    --primary-foreground: 0 0% 100%;
+  }
+
+  :root[class*="violet"] {
+    --primary: 262.1 83.3% 57.8%;
+    --primary-foreground: 0 0% 100%;
+  }
+
+  :root[class*="purple"] {
+    --primary: 272.1 91.7% 34.1%;
+    --primary-foreground: 0 0% 100%;
+  }
+
+  :root[class*="fuchsia"] {
+    --primary: 301.7 95.4% 41.8%;
+    --primary-foreground: 0 0% 100%;
+  }
+
+  :root[class*="pink"] {
+    --primary: 322.1 73.3% 57.8%;
+    --primary-foreground: 0 0% 100%;
+  }
+
+  :root[class*="rose"] {
+    --primary: 349.7 89.2% 60.2%;
+    --primary-foreground: 0 0% 100%;
   }
 }
 
@@ -75,16 +152,24 @@
   }
 }
 
-@keyframes progress {
-  0% {
-    width: 0%;
-  }
-  100% {
-    width: 100%;
-  }
+.bg-grid-white\/10 {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.1)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
 }
 
-.animate-progress {
-  animation: progress 2s ease-in-out infinite;
+/* Add grid animation styles */
+@layer components {
+  .grid-cell {
+    @apply relative border border-muted;
+  }
+
+  .grid-cell-hover {
+    @apply absolute inset-0 bg-primary/10 hover:bg-primary/20 
+           dark:bg-primary/5 dark:hover:bg-primary/10 
+           opacity-0 transition-opacity will-change-[opacity] duration-1000;
+  }
+
+  .grid-cell-active {
+    @apply opacity-100 cursor-pointer;
+  }
 }
 

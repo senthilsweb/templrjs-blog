@@ -6,9 +6,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - DATABASE_URL=${DATABASE_URL:-sqlite://./local.db}
-    volumes:
-      - ./local.db:/app/local.db
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/performance_metrics
     depends_on:
       - db
 

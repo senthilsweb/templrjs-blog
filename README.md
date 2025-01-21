@@ -289,3 +289,4 @@ For support, please:
 - [DrizzleORM](https://orm.drizzle.team/)
 - [shadcn/ui](https://ui.shadcn.com/)
 - [Tailwind CSS](https://tailwindcss.com/)
+

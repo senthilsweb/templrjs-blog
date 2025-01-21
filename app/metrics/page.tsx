@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { Suspense } from "react"
 import { MetricsClient } from "./metrics-client"
 
 export default function MetricsPage() {
