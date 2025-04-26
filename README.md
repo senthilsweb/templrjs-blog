@@ -36,8 +36,8 @@ A comprehensive dashboard for managing and visualizing performance test metrics,
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/senthilsweb/perf-metrics.git
-cd perf-metrics
+git clone https://github.com/senthilsweb/templrjs-blog.git
+cd templrjs-blog
 ```
 
 ### 2. Install Dependencies
@@ -151,7 +151,7 @@ Check API and database health.
 ## Project Structure
 
 ```plaintext
-perf-metrics/
+templrjs-blog/
 ├── app/                    # Next.js app directory
 │   ├── api/               # API routes
 │   ├── metrics/           # Metrics page
@@ -218,7 +218,7 @@ npx tsx scripts/migrate.ts
 
 
 ```shellscript
-docker build -t perf-metrics .
+docker build -t templrjs-blog .
 ```
 
 2. Run the container:
@@ -278,7 +278,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For support, please:
 
-1. Check the [issues](https://github.com/senthilsweb/perf-metrics/issues) page
+1. Check the [issues](https://github.com/senthilsweb/templrjs-blog/issues) page
 2. Create a new issue if your problem isn't already listed
 3. Join our [Discord community](https://discord.gg/your-server)
 
